@@ -3,7 +3,7 @@ import {Document,Page} from 'react-pdf';
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
-import pdf from "./Curriculum Vitae.pdf";
+
 import "./MidPanel.css";
 
 
