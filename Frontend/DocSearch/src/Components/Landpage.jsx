@@ -12,14 +12,16 @@ const LandPage = ()=> {
   {
     console.log("Landpage received ",file);
     setPdf(file);
+
+    console.log(pdf);
   }
 
-  console.log(pdf);
+  
   return (
     <div style={{display:'flex',justifyContent:'space-between',height:'100vh',width:'100vw'}}>
         <LeftPanel onSelectPDF = {handlepdf}/>
 
-        {pdf? (<MidPanel file = {pdf}/>):(alert("Select a pdf"))}
+        {pdf? (<MidPanel file = {pdf}/>):<MidPanel/>}
         <RightPanel/>
 
     </div>

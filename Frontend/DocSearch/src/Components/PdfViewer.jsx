@@ -1,45 +1,64 @@
 import { useState } from 'react';
 import {Document,Page} from 'react-pdf';
+import "bootstrap/dist/css/bootstrap.min.css";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
+import pdf from "./Curriculum Vitae.pdf";
+import "./MidPanel.css";
 
 
 const PdfViewer = ({file}) =>{
 
-    console.log("PDF RECEIVED",file);
-        const [numPage,setnumPage] = useState(null);
- 
+    const [numPages, setNumPages] = useState(0);
+    const [pageNumber, setPageNumber] = useState(0);
+    const [zoom,setZoom] = useState(1); 
 
-     if (!file)
-     {
-        return <p>No PDF selected</p>
-     }
+  const onDocumentLoadSuccess = ({numPages}) =>{
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
 
-        return(
-        <div style={{height:'100%', overflow:'auto'}}>
-            <Document
-            
-            file={file}
-            onLoadSuccess={({numPage}) =>
-            setnumPage(numPage)}
-            loading = {<p>Loading Pdf...</p>}
-            error = {<p>FAILED TO LOAD PDF</p>}>
+  const nextPage = () =>{
+    setPageNumber((prev) => (prev<numPages? prev+1:prev));
+  }
 
+  
+  const PrevPage = () =>{
+    
+    setPageNumber((prev) => (prev>1? prev-1:prev));
+  }
+  
 
-            {Array.from({length:numPage},(_,index) =>(
+  
+  return (
+    <div className='viewer_div'>
+      <Document file= {file} onLoadSuccess={onDocumentLoadSuccess}>
+        <Page pageNumber={pageNumber}
+        renderAnnotationLayer={true}
+        renderTextLayer={true}
+        
+        />
+      </Document>
+      
+      <div className='d-flex align-items center justify-content center mt-2'>
+        <button className = 'btn btn-primary btn-lg mt-4 shadow' onClick={PrevPage} disabled = {pageNumber<=1}>
+          Prev
+        </button>
 
-                <div key={index} id={`page ${index + 1}`}>
-                    <Page
-                    pageNumber={index+1}
-                    scale={1.4}
-                    renderTextLayer={true}
-                    renderAnnotationLayer={true}
-                    />
-                </div>
-            ))}
-            </Document>
-        </div>   
-        )
+        <p className='mb-0 text-center flex-grow-1 fs-5'>Page {pageNumber} of {numPages} pages</p>
+
+        <button className='btn btn-primary btn-lg mt-4 shadow' onClick={nextPage} disabled = {pageNumber >= numPages}>
+          Next
+        </button>
+
+        
+      </div>
+
+    </div>
+  );
+    
+
+    
 }
 
 export default PdfViewer;

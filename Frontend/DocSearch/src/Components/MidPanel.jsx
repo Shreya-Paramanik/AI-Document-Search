@@ -6,7 +6,7 @@ import PdfViewer from './PdfViewer'
   console.log("Mid",file);
   return (
     <div style={{height:'100%',width:'50%',backgroundColor:'#f5f8fdff'}}>
-        <h1>View Here</h1>
+        <h1 style={{marginLeft:'50px',marginTop:'20px'}}>View Here</h1>
         <PdfViewer file={file}/>
 
     </div>
