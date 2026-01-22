@@ -1,26 +1,24 @@
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-import torch
+import os
+from dotenv import load_dotenv
+from google import genai
 
-MODEL_NAME = "google/flan-t5-small"
+load_dotenv()
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
+client = genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 
-def generate_answer(context : str,question : str)->str:
+def gen_result(context : str, query : str)->str:
     prompt = f"""
-    you are a factual question-answering system.
-    
-    Answer ONLY using the context below.
-    If the answer is not explicitly present, reply:
-    "Not Mentioned in the document."
-    Context: {context}
-    Question: {question}
-    Answer: 
-    """
+        you are a factual question-answering system.
 
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512)
+        Answer ONLY using the context below.
+        If the answer is not explicitly present, reply:
+        "Not Mentioned in the document."
+        Context: {context}
+        Question: {query}
+        """
+    response = client.models.generate_content(
 
-    with torch.no_grad():
-        outputs = model.generate(**inputs,max_new_tokens = 80)
+        model="gemini-flash-latest",
+        contents= prompt)
 
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return response.text

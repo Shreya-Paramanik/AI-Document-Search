@@ -5,7 +5,7 @@ from PdfLoader import read_pdf
 from Search import semantic_search,build_index
 from Chunker import spilt_text
 from Embed import create_embed
-from llm import generate_answer
+from llm import gen_result
 
 
 app = FastAPI()
@@ -52,7 +52,7 @@ def search(doc_id : str,query: str):
     results = semantic_search(query,index, chunks,k =10)
     context = "\n".join(results)
 
-    answer = generate_answer(context, query)
+    answer = gen_result(context, query)
 
     return {"answer": answer,
             "context": results

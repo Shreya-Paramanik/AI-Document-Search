@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "./RightPanel.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from 'axios';
 
- const RightPanel = ()=> {
+ const RightPanel = ({doc_id})=> {
 
   const [messages,setMessages] = useState([]);
   const [input,setInput] = useState("");
@@ -19,42 +20,41 @@ import "bootstrap/dist/css/bootstrap.min.css";
   const handleSend = async() => {
     console.log("Send");
 
-    if(!input.trim()) return;
+    const question = input.trim();
+    if(!question) return;
 
+    console.log(question);
     // if(!documentId)
     // {
     //   alert("Upload a PDF first");
     //    return;
     // }
 
-    
-    const userMessage = {
-      role :'user',
-      content:input.trim()
-    };
-
-    setMessages(prev => [...prev,userMessage]);
+    setMessages((prev) =>[...prev,{role:"user",content: question}]);
     setInput("");
 
-    const loadingMessage = {
-      role:"assistant",
-      content:"Thinking..."
-    };
+    try{
+      // console.log(doc_id,question);
+      const response = await axios.post("http://127.0.0.1:8000/search",null,{
+        params:{
+          doc_id : doc_id,
+          query : question
+        }
+      });
 
-    setMessages(prev =>[...prev,loadingMessage]);
+      console.log(response);
 
-    const data = await mockAskAPI(userMessage.content);
+      setMessages((prev) =>[
+        ...prev,{role:"bot",content:response.data.answer},
+      ]);
+    }catch(error)
+    {
+      console.log(error);
 
-    setMessages(prev =>{
-      const updated = [...prev];
-      updated[updated.length-1] = {
-        role:"assistant",
-        content:data.answer
-      };
-      return updated;
-    });
+
+      setMessages((prev) =>[...prev,{role:"bot",content:"Can't find results"}]);
+    }
   };
-
   
   const handleKeyDown = (e) =>{
     if(e.key === "Enter" && !e.shiftKey){

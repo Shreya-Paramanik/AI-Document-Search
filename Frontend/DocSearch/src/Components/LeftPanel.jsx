@@ -5,41 +5,40 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import axios from 'axios';
 
 
-const LeftPanel = ({onSelectPDF})=> {
+const LeftPanel = ({onSelectPDF,Getid})=> {
 
 
    const handleFileChange = async (event) =>
    {
      
-      const data = event.target.files[0];
+      const file = event.target.files[0];
+      if(!file) return;
+
+      if(file.type !== "application/pdf")
+      {
+        alert("Only PDF allowed");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file",file);
+
+
       try {
         const response = await axios.post('http://127.0.0.1:8000/upload',
-          data,
-          {
-            headers:{
-              "Content-Type": "multipart/form-data"
-
-            }
-          }
+          formData
         );
+
+        console.log(response.data.id);
+        Getid(response.data.id);
       } catch (error) {
         alert("Cannot upload file");
         console.log(error);
       }
 
 
-     const file = event.target.files[0];
-
-     console.log("Selected file",file);
-     if(!file)return;
-
-     if(file.type !== "application/pdf")
-     {
-      alert("Only Pdf");
-      return;
-     }
-
      onSelectPDF(file);
+     
 
   }
 

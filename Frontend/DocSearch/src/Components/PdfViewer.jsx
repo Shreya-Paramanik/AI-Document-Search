@@ -34,6 +34,7 @@ const PdfViewer = ({file}) =>{
     <div className='viewer_div'>
       <Document file= {file} onLoadSuccess={onDocumentLoadSuccess}>
         <Page pageNumber={pageNumber}
+        width={600*zoom}
         renderAnnotationLayer={true}
         renderTextLayer={true}
         
@@ -41,7 +42,7 @@ const PdfViewer = ({file}) =>{
       </Document>
       
       <div className='d-flex align-items center justify-content center mt-2'>
-        <button className = 'btn btn-primary btn-lg mt-4 shadow' onClick={PrevPage} disabled = {pageNumber<=1}>
+        <button className = 'btn btn-primary btn-lg mt-4 shadow' onClick={() => {PrevPage; setZoom(z => Math.min(z+0.2,2))}} disabled = {pageNumber<=1}>
           Prev
         </button>
 
