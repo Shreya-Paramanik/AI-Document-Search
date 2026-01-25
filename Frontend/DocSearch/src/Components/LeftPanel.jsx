@@ -5,13 +5,15 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import axios from 'axios';
 
 
-const LeftPanel = ({onSelectPDF,Getid})=> {
+const LeftPanel = ({onSelectPDF,documents})=> {
 
 
    const handleFileChange = async (event) =>
    {
-     
+
       const file = event.target.files[0];
+
+      console.log(file);
       if(!file) return;
 
       if(file.type !== "application/pdf")
@@ -19,27 +21,9 @@ const LeftPanel = ({onSelectPDF,Getid})=> {
         alert("Only PDF allowed");
         return;
       }
-
-      const formData = new FormData();
-      formData.append("file",file);
-
-
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/upload',
-          formData
-        );
-
-        console.log(response.data.id);
-        Getid(response.data.id);
-      } catch (error) {
-        alert("Cannot upload file");
-        console.log(error);
-      }
-
-
-     onSelectPDF(file);
-     
-
+       
+        onSelectPDF(file);
+        console.log(documents);
   }
 
    
@@ -54,7 +38,17 @@ const LeftPanel = ({onSelectPDF,Getid})=> {
               <label htmlFor = "pdfuploaded" className='btn shadow lg px-5 py-4 mt-5 fs-4' style={{backgroundColor:'#985F6F',color:'white'}}>Upload Pdf</label>
               <input type= 'file' accept = 'application/pdf'id='pdfuploaded' onChange={handleFileChange} hidden/>
             </div>
-      </div>
+        </div>
+
+
+       <div className='list-group p-3'>
+        {documents.map((doc) => {
+          return <button key={doc.id} className='list-group-item list-group-item rounded-2 mb-2 opacity-75 py-3 fs-5 history' onClick={(event) => console.log(event)}>
+            {doc.name}
+          </button>
+        })}
+        </div>
+       
     </div>
   )
 }

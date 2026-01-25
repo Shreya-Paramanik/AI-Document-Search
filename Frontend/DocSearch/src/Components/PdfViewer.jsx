@@ -47,7 +47,7 @@ const PdfViewer = ({file}) =>{
           </button>
 
         </div>
-      <Document file= {file} 
+      <Document file= {file?.file} 
       onLoadSuccess={onDocumentLoadSuccess}>
         <Page className="react-pdf__Page" pageNumber={pageNumber}
         width={600 * zoom}

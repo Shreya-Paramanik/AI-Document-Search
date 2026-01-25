@@ -5,6 +5,8 @@ import './MidPanel.css';
 
  const MidPanel = ({file})=> {
   console.log("Mid",file);
+
+  
   return (
     <div className='mid-panel'>
       <div className='mid-header'>

@@ -18,3 +18,10 @@
     padding-top: 20px;
 }
 
+.history:hover
+{
+    opacity: 0;
+    background-color: #985F6F;
+    color: white;
+}
+
