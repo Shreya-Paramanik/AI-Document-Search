@@ -1,14 +1,13 @@
 .my-div{
     margin: 50px 15px 15px 50px;
-    background-color: #5078b0;
+    background-color: #2c2d2e;;
     border: 8px dotted white;
     
     
 }
 
 .my-div2{
-    border: none;
-    background-color: none;
+    background-color: #4E4C67;
 }
 
 .my-link

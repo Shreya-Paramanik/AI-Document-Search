@@ -1,16 +1,32 @@
 import React from 'react';
 import PdfViewer from './PdfViewer'
+import './MidPanel.css';
 
 
  const MidPanel = ({file})=> {
   console.log("Mid",file);
   return (
-    <div style={{height:'100%',width:'50%',backgroundColor:'#f5f8fdff',display:'flex',justifyContent:'center',alignContent:'center'}}>
-        <h1 style={{marginLeft:'50px',marginTop:'20px'}}>View Here</h1>
-        <PdfViewer file={file}/>
+    <div className='mid-panel'>
+      <div className='mid-header'>
+        <h1>Document Viewer</h1>
+      </div>
 
+
+      <div className='mid-body'>
+
+        {!file ? (
+          <div className='empty-space'>
+            <p>No Document uploaded</p>
+          </div>
+
+        ):
+        (
+          <PdfViewer file={file}/>
+        )}
+
+      </div>
     </div>
   )
 }
-
+ 
 export default MidPanel

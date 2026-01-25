@@ -9,8 +9,8 @@ import "./MidPanel.css";
 
 const PdfViewer = ({file}) =>{
 
-    const [numPages, setNumPages] = useState(0);
-    const [pageNumber, setPageNumber] = useState(0);
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
     const [zoom,setZoom] = useState(1); 
 
   const onDocumentLoadSuccess = ({numPages}) =>{
@@ -31,30 +31,61 @@ const PdfViewer = ({file}) =>{
 
   
   return (
-    <div className='viewer_div'>
-      <Document file= {file} onLoadSuccess={onDocumentLoadSuccess}>
-        <Page pageNumber={pageNumber}
-        width={600*zoom}
+    <div className='pdf-viewer'>
+
+      <div className='pdf-toolbar'>
+          <button className='btn btn-lg btn-primary px-4' 
+            onClick={PrevPage}
+            disabled={pageNumber === 1}>
+            Prev
+          </button>
+
+          <span className='page-indicator'>Page {pageNumber}/{numPages}</span>
+
+          <button className='btn btn-lg btn-primary px-4' onClick={nextPage}>
+            Next
+          </button>
+
+        </div>
+      <Document file= {file} 
+      onLoadSuccess={onDocumentLoadSuccess}>
+        <Page className="react-pdf__Page" pageNumber={pageNumber}
+        width={600 * zoom}
         renderAnnotationLayer={true}
         renderTextLayer={true}
         
         />
       </Document>
       
-      <div className='d-flex align-items center justify-content center mt-2'>
-        <button className = 'btn btn-primary btn-lg mt-4 shadow' onClick={() => {PrevPage; setZoom(z => Math.min(z+0.2,2))}} disabled = {pageNumber<=1}>
-          Prev
-        </button>
 
-        <p className='mb-0 text-center flex-grow-1 fs-5'>Page {pageNumber} of {numPages} pages</p>
+      
 
-        <button className='btn btn-primary btn-lg mt-4 shadow' onClick={nextPage} disabled = {pageNumber >= numPages}>
-          Next
-        </button>
 
+
+      {numPages &&
+      (
         
+
+        <div className='zoom-slider-wrapper'>
+        <input
+          type='range'
+          min={0.5}
+          max={2}
+          step={0.1}
+          value={zoom}
+          onChange={(e) => setZoom(parseFloat(e.target.value))}
+          className="zoom-slider"
+        />
+
+        <span className='zoom-label'>{Math.round(zoom * 100)}%</span>
       </div>
 
+        )}
+
+
+        
+      
+      
     </div>
   );
     

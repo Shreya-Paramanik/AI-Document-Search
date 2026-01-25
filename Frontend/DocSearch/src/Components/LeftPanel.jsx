@@ -44,15 +44,15 @@ const LeftPanel = ({onSelectPDF,Getid})=> {
 
    
   return (
-    <div style={{height:'100%',width:'20%',backgroundColor:'#5078b0'}}>
+    <div style={{height:'100%',width:'20%',backgroundColor:'#4E4C67'}}>
 
-        <h1 style={{marginLeft:'50px',marginTop:'20px'}}>History</h1>
-        <div className="card text-center mb-3 my-div" style= {{width:'80%',backgroundColor:'#5078b0',border:'5px dotted white'}}>
+        <h1 style={{marginLeft:'50px',marginTop:'20px',color:'#FFFFFF'}}>Upload Here</h1>
+        <div className="card text-center mb-3 my-div" style= {{width:'80%',backgroundColor:'#4E4C67',border:'5px dotted white'}}>
             <div className="card-body my-div2">
               <AiOutlineCloudUpload size={100} color={'white'}style={{display:'block', marginLeft:'35%'}}/>
 
-              <label htmlFor = "pdfuploaded" className='btn btn-primary shadow lg px-5 py-4 mt-5 fs-4'>Upload Pdf</label>
-              <input type= 'file' accept = 'application/pdf'id='pdfuploaded' style={{fontSize:'25px'}} onChange={handleFileChange} hidden/>
+              <label htmlFor = "pdfuploaded" className='btn shadow lg px-5 py-4 mt-5 fs-4' style={{backgroundColor:'#985F6F',color:'white'}}>Upload Pdf</label>
+              <input type= 'file' accept = 'application/pdf'id='pdfuploaded' onChange={handleFileChange} hidden/>
             </div>
       </div>
     </div>

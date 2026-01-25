@@ -65,21 +65,21 @@ import axios from 'axios';
   
 
   return (
-    <div className='r-div' style={{height:'100%',width:'30%',backgroundColor:'#eef3f0ff'}}>
+    <div className='r-div' style={{height:'100%',width:'35%',backgroundColor:'#A6B1E1',border:'1px solid #A6B1E1'}}>
 
-      <h1 className='mt-4 ms-5'>Search Here</h1>
+      <h1 className='mt-4 ms-5' style={{color:'#007EA7'}}>Search Here</h1>
         <div className='chat-window'>
 
           {messages.length === 0 &&(
-            <div className='empty-state'>
-              Ask Qusetions about the uploaded document
+            <div className='empty-state' style={{color:'black',marginLeft:'25px'}}>
+             <h4> Ask Questions about the uploaded document</h4>
             </div>
           )}
 
           {messages.map((msg,index) => (
             <div key={index} className={`d-flex mb-2 ${msg.role === "user"?"justify-content-end":"justify-content-start"}`}>
             
-              <div className={`px-3 py-4 rounded fs-5 ${msg.role === "user"? "bg-primary text-white":"bg-success text-dark border"}`} 
+              <div className={`px-3 py-4 rounded fs-5 ${msg.role === "user"? "user-bubble":"asst-bubble"}`} 
               style={{maxWidth:"70%"}}>
                 {msg.content}
               </div> 
@@ -95,7 +95,7 @@ import axios from 'axios';
           onKeyDown={handleKeyDown}
           placeholder='Ask something about the document...'/>
 
-          <button onClick={handleSend} className='btn btn-primary btn-lg ms-3 px-4 fs-4'>Send</button>
+          <button onClick={handleSend} className='btn btn-lg ms-3 px-4 fs-4' style={{color:'white',backgroundColor:'#985F6F'}}>Send</button>
         </div>
       
 
