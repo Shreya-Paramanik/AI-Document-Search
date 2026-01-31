@@ -5,7 +5,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import axios from 'axios';
 
 
-const LeftPanel = ({onSelectPDF,documents})=> {
+const LeftPanel = ({onSelectPDF,documents,passFile})=> {
 
 
    const handleFileChange = async (event) =>
@@ -22,15 +22,16 @@ const LeftPanel = ({onSelectPDF,documents})=> {
         return;
       }
        
+       console.log(documents);
         onSelectPDF(file);
-        console.log(documents);
+       
   }
 
    
   return (
     <div style={{height:'100%',width:'20%',backgroundColor:'#4E4C67'}}>
 
-        <h1 style={{marginLeft:'50px',marginTop:'20px',color:'#FFFFFF'}}>Upload Here</h1>
+        <h1 style={{marginLeft:'50px',marginTop:'20px',color:'#FFFFFF'}}>History</h1>
         <div className="card text-center mb-3 my-div" style= {{width:'80%',backgroundColor:'#4E4C67',border:'5px dotted white'}}>
             <div className="card-body my-div2">
               <AiOutlineCloudUpload size={100} color={'white'}style={{display:'block', marginLeft:'35%'}}/>
@@ -39,11 +40,12 @@ const LeftPanel = ({onSelectPDF,documents})=> {
               <input type= 'file' accept = 'application/pdf'id='pdfuploaded' onChange={handleFileChange} hidden/>
             </div>
         </div>
+        
 
 
        <div className='list-group p-3'>
-        {documents.map((doc) => {
-          return <button key={doc.id} className='list-group-item list-group-item rounded-2 mb-2 opacity-75 py-3 fs-5 history' onClick={(event) => console.log(event)}>
+        {documents.map((doc,index) => {
+          return <button key={index} className='list-group-item list-group-item rounded-2 mb-2 opacity-75 py-3 fs-5 history' onClick={() =>passFile(doc)}>
             {doc.name}
           </button>
         })}

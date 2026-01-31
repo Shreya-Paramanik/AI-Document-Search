@@ -3,9 +3,9 @@ import "./RightPanel.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 
- const RightPanel = ({doc_id})=> {
+ const RightPanel = ({doc_id,messages,setMessages,addtoChat})=> {
 
-  const [messages,setMessages] = useState([]);
+  console.log("Messages ",messages)
   const [input,setInput] = useState("");
   const bottomRef = useRef(null);
 
@@ -18,7 +18,6 @@ import axios from 'axios';
 
 
   const handleSend = async() => {
-    console.log("Send");
 
     const question = input.trim();
     if(!question) return;
@@ -47,12 +46,16 @@ import axios from 'axios';
       setMessages((prev) =>[
         ...prev,{role:"bot",content:response.data.answer},
       ]);
+
+      console.log(messages);
+      addtoChat(doc_id,"user",question);
+      addtoChat(doc_id,"bot",response.data.answer);
+      
     }catch(error)
     {
       console.log(error);
-
-
       setMessages((prev) =>[...prev,{role:"bot",content:"Can't find results"}]);
+      
     }
   };
   
@@ -67,7 +70,7 @@ import axios from 'axios';
   return (
     <div className='r-div' style={{height:'100%',width:'35%',backgroundColor:'#A6B1E1',border:'1px solid #A6B1E1'}}>
 
-      <h1 className='mt-4 ms-5' style={{color:'#007EA7'}}>Search Here</h1>
+      <h1 className='mt-4 ms-5' style={{color:'#095872'}}>Search Here</h1>
         <div className='chat-window'>
 
           {messages.length === 0 &&(
@@ -76,7 +79,10 @@ import axios from 'axios';
             </div>
           )}
 
+
+        
           {messages.map((msg,index) => (
+            
             <div key={index} className={`d-flex mb-2 ${msg.role === "user"?"justify-content-end":"justify-content-start"}`}>
             
               <div className={`px-3 py-4 rounded fs-5 ${msg.role === "user"? "user-bubble":"asst-bubble"}`} 

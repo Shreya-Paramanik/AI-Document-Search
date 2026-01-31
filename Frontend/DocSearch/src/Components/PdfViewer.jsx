@@ -7,7 +7,17 @@ import 'react-pdf/dist/Page/TextLayer.css';
 import "./MidPanel.css";
 
 
+
+
 const PdfViewer = ({file}) =>{
+  
+  if (!file || !file?.pdfUrl)
+  {
+    return <div>Select a Document</div>;
+  }
+
+  console.log(file);
+  console.log("PDF URL = ",file?.pdfUrl);
 
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
@@ -16,10 +26,13 @@ const PdfViewer = ({file}) =>{
   const onDocumentLoadSuccess = ({numPages}) =>{
     setNumPages(numPages);
     setPageNumber(1);
+
+    
   }
 
   const nextPage = () =>{
     setPageNumber((prev) => (prev<numPages? prev+1:prev));
+    console.log(file);
   }
 
   
@@ -47,7 +60,7 @@ const PdfViewer = ({file}) =>{
           </button>
 
         </div>
-      <Document file= {file?.file} 
+      <Document file= {file?.pdfUrl} 
       onLoadSuccess={onDocumentLoadSuccess}>
         <Page className="react-pdf__Page" pageNumber={pageNumber}
         width={600 * zoom}
